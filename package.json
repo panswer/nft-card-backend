@@ -1,0 +1,17 @@
+{
+  "name": "nft-preview-backend",
+  "version": "1.0.0",
+  "description": "this is the backend for the change with nft card",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "change"
+  ],
+  "author": "ricardo mejias",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
