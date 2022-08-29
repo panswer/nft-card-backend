@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  app:
+    container_name: ntf_card
+    build: .
+    labels:
+      - "traefik.enable=true" # <== Enable traefik to proxy this container
+      - "traefik.http.routers.ntfcard.rule=Host(`ntfcard.mytestingenlocal.ml`)" # <== Your Domain Name for the https rule
+      - "traefik.http.routers.ntfcard.entrypoints=web-secured" # <== Defining entrypoint for https, **ref: line 31
+      - "traefik.http.routers.ntfcard.tls.certresolver=mytlschallenge" # <== Defining certsresolvers for https
+      - "traefik.http.services.ntfcard.loadbalancer.server.port=3000" # 3000 is the port we proxy to
+      # no https
+      - "traefik.http.routers.ntfcard-http.rule=Host(`ntfcard.mytestingenlocal.ml`)" # <== Your Domain Name goes here for the http rule
+      - "traefik.http.routers.ntfcard-http.entrypoints=web" # <== Defining the entrypoint for http, **ref: line 30
+      - "traefik.http.routers.ntfcard-http.middlewares=redirect@file" # <== This is a middleware to redirect to https
+    networks:
+      - web
+    env_file:
+      - .env
+
+networks:
+  web:
+    external: true
